@@ -13,7 +13,8 @@ public final class Motherboard {
         Motherboard m = new Motherboard(devices);
         devices.values().stream().filter(Objects::nonNull).forEach(t -> t.setMotherboard(m));
         devices.values().stream().filter(Objects::nonNull)
-                .forEach(t -> t.getPortAssignments().values().stream().filter(Objects::nonNull).forEach(s -> s.setMotherboard(m)));
+                .forEach(t -> t.getPortAssignments().values().stream()
+                        .filter(Objects::nonNull).forEach(s -> s.setMotherboard(m)));
 
         return m;
     }

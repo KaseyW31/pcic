@@ -14,19 +14,22 @@ public abstract class Application {
         return motherboard;
     }
 
-    public void setMotherboard(Motherboard m) {
+    protected void setMotherboard(Motherboard m) {
         motherboard = m;
     }
 
     public void send(boolean isBroadcast, int recID, int portID, int payload) {
         String binaryPayload = Integer.toBinaryString(payload);
-        Message message = Message.from(isBroadcast, recID, portID, binaryPayload);
+        Message message;
 
-        if (isBroadcast)
+        if (isBroadcast) {
+            message = new Message(Integer.MAX_VALUE, portID, binaryPayload);
             getMotherboard().getDevices().values().stream()
                     .filter(t -> t.getPortAssignments().get(portID) != null)
                     .forEach(t -> t.delegate(message));
+        }
         else {
+            message = new Message(recID, portID, binaryPayload);
             Device device = getMotherboard().getDevices().get(recID);
             if (device == null) {
                 logger.log(Level.WARNING, "Message could not be sent: recipient ID does not match an existing device");

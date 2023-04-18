@@ -10,6 +10,6 @@ public class ExampleDevice extends Device{
     public static Device with(Map<Integer, Application> apps) {
         Objects.requireNonNull(apps);
         apps.keySet().forEach(Objects::requireNonNull);
-        return new ExampleDevice(apps);
+        return new ExampleDevice(Map.copyOf(apps));
     }
 }
