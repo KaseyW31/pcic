@@ -1,6 +1,6 @@
 import java.util.Map;
 
-public class ExampleDevice extends SkeletalDevice{
+public class ExampleDevice extends Device{
 
     private ExampleDevice(Motherboard m, Map<Integer, Application> apps) {
         super(m, apps);

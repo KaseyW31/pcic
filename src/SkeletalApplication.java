@@ -1,8 +1,12 @@
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public abstract class SkeletalApplication implements Application {
 
     private final Motherboard motherboard;
+
+    private static final Logger logger = Logger.getLogger(SkeletalApplication.class.getName());
 
     protected SkeletalApplication(Motherboard motherboard) {
         this.motherboard = motherboard;
@@ -14,13 +18,26 @@ public abstract class SkeletalApplication implements Application {
     }
 
     @Override
-    public void send(boolean isBroadcast, int recID, int portID, String payload) {
-        Message message = Message.from(isBroadcast, recID, portID, payload);
+    public void send(boolean isBroadcast, int recID, int portID, int payload) {
+        String binaryPayload = Integer.toBinaryString(payload);
+        Message message = Message.from(isBroadcast, recID, portID, binaryPayload);
         Collection<Device> recipients;
         if (isBroadcast)
-            recipients = Collections.unmodifiableCollection(getMotherboard().getDevices().values());
-        else
-            recipients = Set.of(getMotherboard().getDevices().get(message.recID()));
-        recipients.forEach(t -> t.delegate(message));
+            getMotherboard().getDevices().values().stream()
+                    .filter(t -> t.getPortAssignments().get(portID) != null)
+                    .forEach(t -> t.delegate(message));
+        else {
+            Device device = getMotherboard().getDevices().get(recID);
+            if (device == null) {
+                logger.log(Level.WARNING, "Message could not be sent: recipient ID does not match an existing device");
+                return;
+            }
+            else if (device.getPortAssignments().get(portID) == null) {
+                logger.log(Level.WARNING, "Message could not be sent: port ID does not match an existing application");
+                return;
+            }
+            device.delegate(message);
+        }
     }
+
 }

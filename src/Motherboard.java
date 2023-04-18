@@ -8,7 +8,8 @@ public final class Motherboard {
     }
 
     static Motherboard setUp(Map<Integer, Device> devices) {
-        // error checking?
+        Objects.requireNonNull(devices);
+        devices.values().forEach(Objects::requireNonNull);
         return new Motherboard(devices);
     }
 

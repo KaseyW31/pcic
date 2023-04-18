@@ -8,12 +8,13 @@ public class ExampleApplication extends SkeletalApplication {
         super(motherboard);
     }
 
-    @Override
-    public void receive(String payload) {
-        messages.add(payload);
-    }
-
     public List<String> getMessages() {
         return List.copyOf(messages);
+    }
+
+    @Override
+    public void receive(String payload) {
+        // assertions
+        messages.add(payload);
     }
 }
