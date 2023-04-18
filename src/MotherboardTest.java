@@ -11,7 +11,13 @@ public class MotherboardTest {
         appMap.put(1, new ExampleApplication());
         appMap.put(2, new ExampleApplication());
         deviceMap.put(100, ExampleDevice.with(appMap));
+        deviceMap.put(200, ExampleDevice.with(appMap));
+        Motherboard m = Motherboard.with(deviceMap);
 
     }
+
+    // null device map
+
+    // null keys for devices
 
 }

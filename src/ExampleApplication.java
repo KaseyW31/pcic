@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class ExampleApplication extends SkeletalApplication {
+public class ExampleApplication extends Application {
 
     private List<String> messages;
 

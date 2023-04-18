@@ -1,11 +1,44 @@
-public interface Application {
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-    Motherboard getMotherboard();
+public abstract class Application {
 
-    void setMotherboard(Motherboard m);
+    private Motherboard motherboard;
 
-    void send(boolean isBroadcast, int recID, int portID, int payload);
+    private static final Logger logger = Logger.getLogger(Application.class.getName());
 
-    void receive(String payload);
+    protected Application() {
+    }
 
+    public Motherboard getMotherboard() {
+        return motherboard;
+    }
+
+    public void setMotherboard(Motherboard m) {
+        motherboard = m;
+    }
+
+    public void send(boolean isBroadcast, int recID, int portID, int payload) {
+        String binaryPayload = Integer.toBinaryString(payload);
+        Message message = Message.from(isBroadcast, recID, portID, binaryPayload);
+
+        if (isBroadcast)
+            getMotherboard().getDevices().values().stream()
+                    .filter(t -> t.getPortAssignments().get(portID) != null)
+                    .forEach(t -> t.delegate(message));
+        else {
+            Device device = getMotherboard().getDevices().get(recID);
+            if (device == null) {
+                logger.log(Level.WARNING, "Message could not be sent: recipient ID does not match an existing device");
+                return;
+            }
+            else if (device.getPortAssignments().get(portID) == null) {
+                logger.log(Level.WARNING, "Message could not be sent: port ID does not match an existing application");
+                return;
+            }
+            device.delegate(message);
+        }
+    }
+
+    abstract void receive(String payload);
 }
