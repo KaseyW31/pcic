@@ -1,6 +1,8 @@
 public interface Application {
 
-    void send(Message message);
+    Motherboard getMotherboard();
+
+    void send(boolean isBroadcast, int recID, int portID, String payload);
 
     void receive(Message message);
 }

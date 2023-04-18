@@ -4,9 +4,14 @@ public abstract class SkeletalDevice implements Device {
     private final Motherboard motherboard;
     private final Map<Integer, Application> portAssignments;
 
-    private SkeletalDevice(Motherboard motherboard, Map<Integer, Application> assignments) {
+    protected SkeletalDevice(Motherboard motherboard, Map<Integer, Application> assignments) {
         this.motherboard = motherboard;
         portAssignments = assignments;
+    }
+
+    @Override
+    public Motherboard getMotherboard() {
+        return motherboard;
     }
 
     @Override
