@@ -4,10 +4,6 @@ public class ExampleApplication extends SkeletalApplication {
 
     private List<String> messages;
 
-    ExampleApplication(Motherboard motherboard) {
-        super(motherboard);
-    }
-
     public List<String> getMessages() {
         return List.copyOf(messages);
     }

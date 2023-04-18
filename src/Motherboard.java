@@ -7,10 +7,15 @@ public final class Motherboard {
         this.devices = Map.copyOf(devices);
     }
 
-    static Motherboard setUp(Map<Integer, Device> devices) {
+    public static Motherboard with(Map<Integer, Device> devices) {
         Objects.requireNonNull(devices);
-        devices.values().forEach(Objects::requireNonNull);
-        return new Motherboard(devices);
+        devices.keySet().forEach(Objects::requireNonNull);
+        Motherboard m = new Motherboard(devices);
+        devices.values().stream().filter(Objects::nonNull).forEach(t -> t.setMotherboard(m));
+        devices.values().stream().filter(Objects::nonNull)
+                .forEach(t -> t.getPortAssignments().values().stream().filter(Objects::nonNull).forEach(s -> s.setMotherboard(m)));
+
+        return m;
     }
 
     Map<Integer, Device> getDevices() {

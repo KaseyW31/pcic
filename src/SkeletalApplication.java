@@ -4,17 +4,21 @@ import java.util.logging.Logger;
 
 public abstract class SkeletalApplication implements Application {
 
-    private final Motherboard motherboard;
+    private Motherboard motherboard;
 
     private static final Logger logger = Logger.getLogger(SkeletalApplication.class.getName());
 
-    protected SkeletalApplication(Motherboard motherboard) {
-        this.motherboard = motherboard;
+    protected SkeletalApplication() {
     }
 
     @Override
     public Motherboard getMotherboard() {
         return motherboard;
+    }
+
+    @Override
+    public void setMotherboard(Motherboard m) {
+        motherboard = m;
     }
 
     @Override

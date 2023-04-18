@@ -1,14 +1,15 @@
 import java.util.Map;
+import java.util.Objects;
 
 public class ExampleDevice extends Device{
 
-    private ExampleDevice(Motherboard m, Map<Integer, Application> apps) {
-        super(m, apps);
+    private ExampleDevice(Map<Integer, Application> apps) {
+        super(apps);
     }
 
-    @Override
-    public Device setUp(Motherboard m, Map<Integer, Application> apps) {
-        // error checking
-        return new ExampleDevice(m, apps);
+    public static Device with(Map<Integer, Application> apps) {
+        Objects.requireNonNull(apps);
+        apps.keySet().forEach(Objects::requireNonNull);
+        return new ExampleDevice(apps);
     }
 }

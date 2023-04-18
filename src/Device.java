@@ -1,18 +1,19 @@
 import java.util.*;
 
 public abstract class Device {
-    private final Motherboard motherboard;
+    private Motherboard motherboard;
     private final Map<Integer, Application> portAssignments;
 
-    protected Device(Motherboard motherboard, Map<Integer, Application> assignments) {
-        this.motherboard = motherboard;
+    protected Device(Map<Integer, Application> assignments) {
         portAssignments = assignments;
     }
-
-    public abstract Device setUp(Motherboard m, Map<Integer, Application> apps);
-
+    
     public Motherboard getMotherboard() {
         return motherboard;
+    }
+
+    protected void setMotherboard(Motherboard m) {
+        motherboard = m;
     }
 
     public Map<Integer, Application> getPortAssignments() {
