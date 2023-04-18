@@ -21,6 +21,7 @@ public abstract class SkeletalDevice implements Device {
 
     @Override
     public void delegate(Message message) {
-        getPortAssignments().get(message.portID()).receive(message);
+        // assertions?
+        getPortAssignments().get(message.portID()).receive(message.payload());
     }
 }

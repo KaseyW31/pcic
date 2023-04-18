@@ -2,7 +2,7 @@ import java.util.*;
 
 public interface Device {
 
-    Device with(Motherboard m, Map<Integer, Application> apps);
+    Device setUp(Motherboard m, Map<Integer, Application> apps);
 
     Motherboard getMotherboard();
 
