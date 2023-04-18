@@ -10,8 +10,8 @@ public class MotherboardTest {
         Map<Integer, Application> appMap = new HashMap<>();
         appMap.put(1, new ExampleApplication());
         appMap.put(2, new ExampleApplication());
-        deviceMap.put(100, ExampleDevice.with(appMap));
-        deviceMap.put(200, ExampleDevice.with(appMap));
+        deviceMap.put(100, Device.with(appMap));
+        deviceMap.put(200, Device.with(appMap));
         Motherboard m = Motherboard.with(deviceMap);
 
     }

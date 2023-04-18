@@ -12,9 +12,10 @@ public final class Motherboard {
         devices.keySet().forEach(Objects::requireNonNull);
         Motherboard m = new Motherboard(devices);
         devices.values().stream().filter(Objects::nonNull).forEach(t -> t.setMotherboard(m));
-        devices.values().stream().filter(Objects::nonNull)
+        /* devices.values().stream().filter(Objects::nonNull)
                 .forEach(t -> t.getPortAssignments().values().stream()
                         .filter(Objects::nonNull).forEach(s -> s.setMotherboard(m)));
+         */
 
         return m;
     }
