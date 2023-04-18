@@ -14,7 +14,7 @@ public class ExampleApplication extends SkeletalApplication {
 
     @Override
     public void receive(String payload) {
-        // assertions
+        assert payload != null;
         messages.add(payload);
     }
 }

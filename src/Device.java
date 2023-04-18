@@ -20,6 +20,7 @@ public abstract class Device {
     }
 
     void delegate(Message message) {
+        assert getMotherboard().getDevices().get(message.recID()) == this : "Message was not meant for this device";
         assert getPortAssignments().get(message.portID()) != null;
         getPortAssignments().get(message.portID()).receive(message.payload());
     }

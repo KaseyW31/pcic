@@ -21,7 +21,7 @@ public abstract class SkeletalApplication implements Application {
     public void send(boolean isBroadcast, int recID, int portID, int payload) {
         String binaryPayload = Integer.toBinaryString(payload);
         Message message = Message.from(isBroadcast, recID, portID, binaryPayload);
-        Collection<Device> recipients;
+
         if (isBroadcast)
             getMotherboard().getDevices().values().stream()
                     .filter(t -> t.getPortAssignments().get(portID) != null)
