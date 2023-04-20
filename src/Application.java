@@ -1,46 +1,26 @@
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public abstract class Application {
 
-    private Motherboard motherboard;
+    private static final Logger logger = Logger.getLogger(Motherboard.class.getName());
 
-    private static final Logger logger = Logger.getLogger(Application.class.getName());
+    private Device device;
 
-    protected Application() {
+    protected Application() {}
+
+    public Device getDevice() {
+        return device;
     }
 
-    public Motherboard getMotherboard() {
-        return motherboard;
+    protected void setDevice(Device d) {
+        device = d;
     }
 
-    protected void setMotherboard(Motherboard m) {
-        motherboard = m;
-    }
-
-    public void send(boolean isBroadcast, int recID, int portID, int payload) {
-        String binaryPayload = Integer.toBinaryString(payload);
-        Message message;
-
-        if (isBroadcast) {
-            message = new Message(Integer.MAX_VALUE, portID, binaryPayload);
-            getMotherboard().getDevices().values().stream()
-                    .filter(t -> t.getPortAssignments().get(portID) != null)
-                    .forEach(t -> t.delegate(message));
-        }
-        else {
-            message = new Message(recID, portID, binaryPayload);
-            Device device = getMotherboard().getDevices().get(recID);
-            if (device == null) {
-                logger.log(Level.WARNING, "Message could not be sent: recipient ID does not match an existing device");
-                return;
-            }
-            else if (device.getPortAssignments().get(portID) == null) {
-                logger.log(Level.WARNING, "Message could not be sent: port ID does not match an existing application");
-                return;
-            }
-            device.delegate(message);
-        }
+    public void send(int recID, int portID, String payload) {
+        if (getDevice() == null)
+            logger.log(Level.WARNING, "Message could not be sent. Application is not connected to a device");
+        Message message = new Message(recID, portID, payload);
+        getDevice().delegateSend(message);
     }
 
     abstract void receive(String payload);
