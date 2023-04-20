@@ -22,17 +22,18 @@ public final class Device {
         return d;
     }
 
+    public Map<Integer, Application> getPortAssignments() {
+        return portAssignments;
+    }
+
     public Motherboard getMotherboard() {
         return motherboard;
     }
 
     /* Invoked by the motherboard when plugging the device in */
     void setMotherboard(Motherboard m) {
+        assert m != null;
         motherboard = m;
-    }
-
-    public Map<Integer, Application> getPortAssignments() {
-        return portAssignments;
     }
 
     /* Uses the map to return the application given an ID */

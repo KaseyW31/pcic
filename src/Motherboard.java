@@ -15,17 +15,19 @@ public final class Motherboard {
     public static Motherboard with(Map<Integer, Device> devices) {
         Objects.requireNonNull(devices);
         devices.keySet().forEach(Objects::requireNonNull); // so that each device is associated with an ID
+        if (devices.keySet().stream().anyMatch(t -> t == Message.BROADCAST_IDENTIFIER))
+            throw new IllegalArgumentException("Devices cannot be mapped to the broadcast identifier");
         Motherboard m = new Motherboard(devices);
         devices.values().stream().filter(Objects::nonNull)
                                  .forEach(t -> t.setMotherboard(m)); // associates this motherboard with each device
         return m;
     }
 
-    Map<Integer, Device> getDevices() {
+    public Map<Integer, Device> getDevices() {
         return devices;
     }
 
-    Device getDevice(int recID) {
+    public Device getDevice(int recID) {
         return getDevices().get(recID);
     }
 
