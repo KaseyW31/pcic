@@ -36,4 +36,19 @@ public class DeviceTest {
         assertEquals(d, a1.getDevice());
     }
 
+    @Test
+    public void testGetAppNominal() {
+        Application a1 = new ExampleApplication();
+        Map<Integer, Application> map = Map.of(1, a1);
+        Device d = Device.with(map);
+        assertEquals(a1, d.getApplication(1));
+    }
+
+    @Test
+    public void testGetAppNull() {
+        Map<Integer, Application> map = Map.of(1, new ExampleApplication());
+        Device d = Device.with(map);
+        assertNull(d.getApplication(0));
+    }
+
 }
