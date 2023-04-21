@@ -18,6 +18,7 @@ public class SendTest {
     private Device d3;
     private Motherboard m;
 
+    /* A setup of a motherboard with a few devices, each with a few applications */
     public void normalSetup() {
         a1 = new ExampleApplication();
         a2 = new ExampleApplication();
@@ -31,6 +32,7 @@ public class SendTest {
         m = Motherboard.with(Map.of(1, d1, 2, d2,3,d3));
     }
 
+    /* Used to test log output */
     public void setupLogger(String className) {
         Logger logger = Logger.getLogger(className);
         handler = new LogHandler();
@@ -99,8 +101,31 @@ public class SendTest {
         assertTrue(handler.checkMessage().contains("port ID does not match"));
     }
 
-    // stress test
+    /* A motherboard with 1000 devices, each with 1000 applications. Each application sends a message back to itself.
+    Assert that each application has received one message at the end.
+     */
+    @Test
+    public void stressTest() {
+        NavigableMap<Integer, Application> apps = new TreeMap<>();
+        for (int i = 0; i < 1000000; i++) {
+            apps.put(i, new ExampleApplication());
+        }
+        Map<Integer, Device> deviceMap = new HashMap<>();
+        for (int i = 0; i < 1000; i++) {
+            deviceMap.put(i, Device.with(apps.subMap(1000*i, 1000*(i+1))));
+        }
+        Motherboard m = Motherboard.with(deviceMap);
+        for (int i = 0; i < apps.size(); i++) {
+            Application app = apps.get(i);
+            app.send(i / 1000, i, "hi");
+        }
+        for (Application app : apps.values()) {
+            assertEquals(1, ((ExampleApplication) app).getMessages().size());
+        }
 
+    }
+
+    /* Helper class to test log output */
     static class LogHandler extends Handler
     {
         String lastMessage = "";
