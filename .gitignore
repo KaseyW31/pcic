@@ -1,0 +1,10 @@
+*.iml
+*.class
+.idea/
+
+doc/
+out/
+build/
+bin/
+report/
+test/

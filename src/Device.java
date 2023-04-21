@@ -43,6 +43,7 @@ public final class Device {
 
     /* Receives the message from its application and passes it up to the motherboard */
     void delegateSend(Message message) {
+        assert message != null;
         if (getMotherboard() == null) {
             logger.log(Level.WARNING, "Message could not be sent. Device is not connected to a motherboard");
             return;
@@ -52,6 +53,7 @@ public final class Device {
 
     /* Receives the message from the motherboard and passes it on to the receiving application */
     void delegateReceive(Message message) {
+        assert message != null;
         Application app = getApplication(message.portID());
         if (app == null) {
             logger.log(Level.WARNING, "Message could not be sent: port ID does not match an existing application");

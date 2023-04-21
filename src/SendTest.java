@@ -68,6 +68,15 @@ public class SendTest {
     }
 
     @Test
+    public void testBroadcastNotAllDevices() {
+        normalSetup();
+        a4.send(Message.BROADCAST_IDENTIFIER, 2, "hola");
+        assertEquals(a2.getLastMessage(), "hola");
+        assertEquals(a5.getLastMessage(), "hola");
+        assertEquals(0, a6.getMessages().size());
+    }
+
+    @Test
     public void testNullPayload() {
         normalSetup();
         a1.send(2, 1, null);
