@@ -2,9 +2,9 @@ import java.util.*;
 import java.util.logging.*;
 
 /**
- * This class represents a device, which can be attached to a Motherboard and can have attached Applications.
- * Connections to applications will be set up upon construction of the device. Connection to the motherboard will
- * be set up upon construction of the motherboard.
+ * This class represents a device, which can be attached to a Motherboard and contains a mapping of port
+ * identifiers to Applications. Connections to applications will be set up upon construction of the device.
+ * Connection to the motherboard will be set up upon construction of the motherboard.
  */
 public final class Device {
 
@@ -20,7 +20,7 @@ public final class Device {
     /**
      * Static constructor for a Device. The device will be constructed with the provided mapping of port IDs to
      * applications, and each of the applications to be connected will be associated with the device.
-     * @param apps The non-null intended mapping of port identifiers with applications.
+     * @param apps The non-null intended mapping of port identifiers to applications.
      * @return A new Device with applications connected as specified
      * @throws NullPointerException if input map is null
      */
