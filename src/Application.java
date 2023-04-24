@@ -15,7 +15,7 @@ public abstract class Application {
     /**
      * Returns the device that the application is connected to. In order to be connected to a device, a Device object
      * must be constructed with a map containing a mapping of a port ID to this application.
-     * @return the device that this application is connected to
+     * @return the device that this application is connected to; null if not connected
      */
     public Device getDevice() {
         return device;
@@ -31,7 +31,8 @@ public abstract class Application {
 
     /**
      * Initiates the message sending process from this application to another. The message will be passed onto the
-     * application's connected device (if present) to be delegated to the motherboard.
+     * application's connected device (if present) to be delegated to the motherboard. Logs a warning and terminates
+     * if this application is not connected to a device.
      * @param recID the ID of the recipient device, as mapped on the motherboard
      * @param portID the ID of the port application, as mapped on the receiving device
      * @param payload the message string to be sent
