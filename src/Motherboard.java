@@ -63,6 +63,7 @@ public final class Motherboard {
     void send(Message message) {
         assert message.payload() != null;
         if (message.recID() == Message.BROADCAST_IDENTIFIER) {
+            // send messages to devices with applications mapped to the specified port ID
             getDevices().values().stream()
                     .filter(t -> t.getApplication(message.portID()) != null)
                     .forEach(t -> t.delegateReceive(message));
